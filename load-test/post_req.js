@@ -21,7 +21,7 @@ export default function () {
 
   const payload = JSON.stringify({
     expTime: 2,
-    urlPath: 'https://example.com/watch-movie/the-lord-of-the-rings',
+    urlPath: 'https://ww26.0123movie.net/movie/iron-man-3-1712.html',
   });
 
   const params = {
