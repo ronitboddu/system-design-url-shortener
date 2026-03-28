@@ -8,7 +8,7 @@ from models.url import Base
 class DatabaseManager:
     def __init__(self, settings: Settings):
         self.settings = settings
-        self.engine = create_engine(settings.database_url, echo=False)
+        self.engine = create_engine(settings.database_url(), echo=False)
         self.SessionLocal = sessionmaker(bind=self.engine)
 
     def create_schema(self) -> None:
@@ -23,3 +23,8 @@ class DatabaseManager:
     def create_tables(self) -> None:
         Base.metadata.create_all(bind=self.engine)
         print("Table 'urls' created successfully!")
+
+    def clear_tables(self) -> None:
+        with self.engine.begin() as conn:
+            conn.execute(text("TRUNCATE TABLE tiny_url.urls RESTART IDENTITY"))
+            print("Table is empty!")
