@@ -1,0 +1,25 @@
+from sqlalchemy import create_engine, inspect, text
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.schema import CreateSchema
+
+from core.config import Settings
+from models.url import Base
+
+class DatabaseManager:
+    def __init__(self, settings: Settings):
+        self.settings = settings
+        self.engine = create_engine(settings.database_url, echo=False)
+        self.SessionLocal = sessionmaker(bind=self.engine)
+
+    def create_schema(self) -> None:
+        schema_name = self.settings.db_schema
+
+        with self.engine.begin() as conn:
+            if not inspect(conn).has_schema(schema_name):
+                conn.execute(CreateSchema(schema_name))
+                conn.commit()
+        print("tiny_url schema created successfully!")
+    
+    def create_tables(self) -> None:
+        Base.metadata.create_all(bind=self.engine)
+        print("Table 'urls' created successfully!")
