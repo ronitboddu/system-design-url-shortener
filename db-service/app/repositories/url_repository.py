@@ -1,4 +1,4 @@
-from models.url import URL
+from app.models.url import URL
 
 class URLRepository:
     def __init__(self, session_factory):

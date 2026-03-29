@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request, HTTPException
-from schemas.url import CreateURLRequest, URLResponse
+from app.schemas.url import CreateURLRequest, URLResponse
 
 router = APIRouter()
 

@@ -5,20 +5,22 @@ import (
 	"fmt"
 	"net/http"
 
-	"www.urlshortener.com/server/internal/service"
 	"www.urlshortener.com/server/internal/util"
 )
 
 func (h *Handler) TinyUrl(rw http.ResponseWriter, req *http.Request) {
 	util.CheckPostReq(&rw, req)
 
-	p := service.NewShortner()
-	code, shortenedUrl, originalURL := p.GenerateTinyUrl(req)
+	util.DecodeReq(req, h.shortenerService)
 
-	h.store.Save(code, originalURL)
+	urlResponse, err := h.shortenerService.PutRecord(req)
 
-	printMap(*h.store.GetUrlMap())
-	fmt.Println()
+	if err != nil {
+		http.NotFound(rw, req)
+		return
+	}
+
+	shortenedUrl := "http://localhost:8080" + urlResponse.ShortCode
 
 	rw.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(rw).Encode(map[string]string{

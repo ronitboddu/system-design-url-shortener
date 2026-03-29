@@ -4,15 +4,20 @@ import (
 	"log"
 	"net/http"
 
+	"www.urlshortener.com/server/internal/client"
+	"www.urlshortener.com/server/internal/config"
 	"www.urlshortener.com/server/internal/handler"
-	"www.urlshortener.com/server/internal/store"
+	"www.urlshortener.com/server/internal/service"
 )
 
 func main() {
 	mux := http.NewServeMux()
 
-	memstore := store.NewMemoryStore()
-	h := handler.NewHandler(memstore)
+	// memstore := store.NewMemoryStore()
+	cfg := config.Load()
+	dbClient := client.NewDBService(cfg.DBServiceBaseURL)
+	shortenerService := service.NewShortner(dbClient)
+	h := handler.NewHandler(shortenerService)
 
 	mux.HandleFunc("/shorten", h.TinyUrl)
 	mux.HandleFunc("/", h.Redirect)

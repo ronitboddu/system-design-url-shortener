@@ -11,12 +11,12 @@ func (h *Handler) Redirect(rw http.ResponseWriter, req *http.Request) {
 	util.CheckGetReq(&rw, req)
 
 	shortCode := strings.TrimPrefix(req.URL.Path, "/")
-	originalURL, ok := h.store.Get(shortCode)
+	urlResponse, err := h.shortenerService.GetRecord(shortCode)
 
-	if !ok {
+	if err != nil {
 		http.NotFound(rw, req)
 		return
 	}
 
-	http.Redirect(rw, req, originalURL, http.StatusFound)
+	http.Redirect(rw, req, urlResponse.OriginalURL, http.StatusFound)
 }

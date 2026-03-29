@@ -4,15 +4,15 @@ import (
 	"net/http"
 	"strings"
 
-	"www.urlshortener.com/server/internal/store"
+	"www.urlshortener.com/server/internal/service"
 )
 
 type Handler struct {
-	store store.Store
+	shortenerService *service.Shortener
 }
 
-func NewHandler(s store.Store) *Handler {
-	return &Handler{store: s}
+func NewHandler(s *service.Shortener) *Handler {
+	return &Handler{shortenerService: s}
 }
 
 func (h *Handler) CheckUrl(urlPath string, rw http.ResponseWriter) {

@@ -2,8 +2,8 @@ from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.schema import CreateSchema
 
-from core.config import Settings
-from models.url import Base
+from app.core.config import Settings
+from app.models.url import Base
 
 class DatabaseManager:
     def __init__(self, settings: Settings):
