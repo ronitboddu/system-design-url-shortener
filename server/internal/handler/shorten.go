@@ -4,14 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-
-	"www.urlshortener.com/server/internal/util"
 )
 
 func (h *Handler) TinyUrl(rw http.ResponseWriter, req *http.Request) {
-	util.CheckPostReq(&rw, req)
-
-	util.DecodeReq(req, h.shortenerService)
+	if req.Method != http.MethodPost {
+		http.Error(rw, "method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
 
 	urlResponse, err := h.shortenerService.PutRecord(req)
 
@@ -20,7 +19,7 @@ func (h *Handler) TinyUrl(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	shortenedUrl := "http://localhost:8080" + urlResponse.ShortCode
+	shortenedUrl := "http://localhost:8080/" + urlResponse.ShortCode
 
 	rw.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(rw).Encode(map[string]string{

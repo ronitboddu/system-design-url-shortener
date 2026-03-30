@@ -20,7 +20,7 @@ def create_url(payload: CreateURLRequest, request: Request):
     repo = request.app.state.url_repository
     record = repo.put_record(
         original_url=payload.original_url,
-        short_code=payload.short_code,
+        ip_addr=payload.ip_addr,
         exp_time=payload.exp_time,
     )
     return URLResponse(

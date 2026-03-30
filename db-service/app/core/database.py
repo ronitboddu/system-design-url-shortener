@@ -17,7 +17,6 @@ class DatabaseManager:
         with self.engine.begin() as conn:
             if not inspect(conn).has_schema(schema_name):
                 conn.execute(CreateSchema(schema_name))
-                conn.commit()
         print("tiny_url schema created successfully!")
     
     def create_tables(self) -> None:

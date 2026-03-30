@@ -10,6 +10,7 @@ class URL(Base):
 
     id = Column(Integer, primary_key=True)
     original_url = Column(Text, nullable=False)
-    short_code = Column(String(10), unique=True, nullable=False)
+    short_code = Column(String(15), unique=True, nullable=False)
+    ip_addr = Column(String(15), nullable=False)
     exp_time = Column(Integer, nullable=True)
     created_at = Column(DateTime, server_default=func.now())

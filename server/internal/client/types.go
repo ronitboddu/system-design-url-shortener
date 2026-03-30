@@ -2,7 +2,7 @@ package client
 
 type PutRecordRequest struct {
 	OriginalURL string `json:"original_url"`
-	ShortCode   string `json:"short_code"`
+	IpAddr      string `json:"ip_addr"`
 	ExpTime     int    `json:"exp_time"`
 }
 

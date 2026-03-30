@@ -24,23 +24,15 @@ func NewShortner(dbClient *client.DBService) *Shortener {
 	}
 }
 
-func (s *Shortener) GenerateTinyUrl(req *http.Request) string {
-	// util.DecodeReq(req, s)
-
-	client_ip := util.GetClientIP(req)
-	ip_url := client_ip + s.UrlPath
-	code := util.GetCode(ip_url)
-	// shortenedUrl := "http://localhost:8080/" + code
-	return code //, shortenedUrl, s.UrlPath
-}
-
 func (s *Shortener) PutRecord(req *http.Request) (*client.URLResponse, error) {
 	ctx := context.Background()
-	code := s.GenerateTinyUrl(req)
+	util.DecodeReq(req, s)
+	client_ip := util.GetClientIP(req)
+	// code := s.GenerateTinyUrl(req)
 
 	payload := client.PutRecordRequest{
 		OriginalURL: s.UrlPath,
-		ShortCode:   code,
+		IpAddr:      client_ip,
 		ExpTime:     s.ExpTime,
 	}
 
