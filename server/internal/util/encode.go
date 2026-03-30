@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-type Encode interface{
+type Encode interface {
 	toBase62(n uint64)
 }
 
