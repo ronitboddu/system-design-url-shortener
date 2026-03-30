@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 func (h *Handler) TinyUrl(rw http.ResponseWriter, req *http.Request) {
+	start := time.Now()
 	if req.Method != http.MethodPost {
 		http.Error(rw, "method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -25,10 +27,6 @@ func (h *Handler) TinyUrl(rw http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(rw).Encode(map[string]string{
 		"short_url": shortenedUrl,
 	})
-}
-
-func printMap(urlStore map[string]string) {
-	for k, v := range urlStore {
-		fmt.Printf("Key: %s, Value: %s\n", k, v)
-	}
+	elapsed := time.Since(start)
+	fmt.Printf("Execution took for Tiny URL %s\n", elapsed)
 }

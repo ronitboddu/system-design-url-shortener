@@ -8,8 +8,13 @@ from app.models.url import Base
 class DatabaseManager:
     def __init__(self, settings: Settings):
         self.settings = settings
-        self.engine = create_engine(settings.database_url(), echo=False)
-        self.SessionLocal = sessionmaker(bind=self.engine)
+        self.engine = create_engine(settings.database_url(), 
+                                    echo=False,
+                                    pool_size = 2,
+                                    max_overflow=0,
+                                    pool_timeout=2,
+                                    )
+        self.SessionLocal = sessionmaker(bind=self.engine, expire_on_commit=False)
 
     def create_schema(self) -> None:
         schema_name = self.settings.db_schema

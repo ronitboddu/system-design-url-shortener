@@ -1,11 +1,14 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
+	"time"
 )
 
 func (h *Handler) Redirect(rw http.ResponseWriter, req *http.Request) {
+	start := time.Now()
 	if req.Method != http.MethodGet {
 		http.Error(rw, "method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -24,4 +27,6 @@ func (h *Handler) Redirect(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	http.Redirect(rw, req, urlResponse.OriginalURL, http.StatusFound)
+	elapsed := time.Since(start)
+	fmt.Printf("Execution took for Redirect %s\n", elapsed)
 }
