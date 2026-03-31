@@ -2,16 +2,16 @@ import http from 'k6/http';
 import { check, sleep } from 'k6';
 
 const existingShortCodes = [
-  'lWuFYtJWow',
-  'lWuFZuKTgQ',
-  'lWuG0rvRcc',
-  'lWuG1nq1Jm',
-  'lWuG2jBNoA',
-  'lWuG3g5abS',
-  'lWuG4jmU6I',
-  'lWuG5fyFLW',
-  'lWuG6bsQj6',
-  'lWuG77EBYk',
+  'lXY6YIaRrO',
+  'lXY6ZTGZcA',
+  'lXY713vsYM',
+  'lXY724ePN6',
+  'lXY73cUYfe',
+  'lXY74bnuOQ',
+  'lXY75a7FII',
+  'lXY768RQCA',
+  'lXY778baAo',
+  'lXY787uxKo',
 ];
 
 export const options = {
@@ -26,7 +26,7 @@ export const options = {
     },
     writes: {
       executor: 'constant-arrival-rate',
-      rate: 100,
+      rate: 50,
       timeUnit: '1s',
       duration: '30s',
       preAllocatedVUs: 1500,

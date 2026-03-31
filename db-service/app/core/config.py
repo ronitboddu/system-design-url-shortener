@@ -10,10 +10,15 @@ class Settings(BaseSettings):
     db_user: str = "ronitboddu"
     db_password: str = ""
     db_schema: str = "tiny_url"
+    snowflake_node_id: int = 1
 
     def database_url(self) -> str:
+        if self.db_password:
+            return (
+                f"postgresql+psycopg://{self.db_user}:{self.db_password}"
+                f"@{self.db_host}:{self.db_port}/{self.db_name}"
+            )
         return (
             f"postgresql+psycopg://{self.db_user}"
             f"@{self.db_host}:{self.db_port}/{self.db_name}"
         )
-    
