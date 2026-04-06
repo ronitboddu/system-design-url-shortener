@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-service
+  namespace: url-shortener
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-service
+  template:
+    metadata:
+      labels:
+        app: db-service
+    spec:
+      containers:
+        - name: db-service
+          image: ronit1209/url-shortener-db-service:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DB_HOST
+              value: postgres
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_SCHEMA
+              value: tiny_url
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_PASSWORD
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_NAME
+            - name: SNOWFLAKE_NODE_ID
+              value: "1"

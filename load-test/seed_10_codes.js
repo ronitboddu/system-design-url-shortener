@@ -17,6 +17,7 @@ export default function () {
 
   const params = {
     headers: {
+        'Host' : 'shortener.local',
       'Content-Type': 'application/json',
       'X-Forwarded-For': `10.10.0.${idx}`,
       'X-Real-IP': `10.10.0.${idx}`,
